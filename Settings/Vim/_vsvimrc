@@ -1,0 +1,5 @@
+so D:\UserRepos\chhar\Settings\vsvim\.vimrc
+
+nnoremap <leader>i :vsc Edit.QuickInfo<CR>
+nnoremap gt :vsc Window.NextDocumentWindow<CR>
+nnoremap gT :vsc Window.PreviousDocumentWindow<CR>
