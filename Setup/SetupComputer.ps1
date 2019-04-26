@@ -1,34 +1,46 @@
 $cwd = Split-Path $script:MyInvocation.MyCommand.Path
 
-if (-Not (Test-Path "~\scoop")) {
-    Set-ExecutionPolicy RemoteSigned -scope CurrentUser
+Set-ExecutionPolicy RemoteSigned -scope CurrentUser
+ 
+if (-Not (Test-Path -Path "~\scoop")) {
     iex (new-object net.webclient).downloadstring('https://get.scoop.sh')
 }
-    
-if (-Not (Test-Path "~\scoop\apps\neovim")) {
-    scoop install neovim
-    pip install --user neovim
+
+function Scoop-Install
+{
+    param (
+        [String] $app,
+        [ScriptBlock] $setupCode = {}
+    )
+
+    Write-Host "Checking install for " -nonewline
+    Write-Host "$app" -foreground Cyan -nonewline
+    Write-Host " - " -nonewline
+    $appPath = "$ENV:userprofile\scoop\apps\$app"
+    if (-Not (Test-Path -LiteralPath $appPath))
+    {
+        Write-Host "Installing" -foreground yellow
+        scoop install $app
+        &$setupCode
+    }
+    else {
+        Write-Host "Installed" -foreground green
+    }
+    $null
 }
 
-if (-Not (Test-Path "~\scoop\apps\fzf")) {
-    scoop install fzf
-    cmd.exe /c ("mklink " + "$ENV:userprofile\.fzf\bin\fzf.exe" + " " + "$ENV:userprofile\scoop\apps\fzf\current\fzf.exe")
+Scoop-Install "neovim" { pip install --user neovim }
+Scoop-Install "fzf" {
+    cmd.exe /c ("mklink $ENV:userprofile\.fzf\bin\fzf.exe $ENV:userprofile\scoop\apps\fzf\current\fzf.exe")
 }
-
-if (-Not (Test-Path "~\scoop\apps\ag")) {
-    scoop install ag
+Scoop-Install "ag"
+Scoop-Install "python" {
+    cmd.exe /c ("$ENV:userprofile\scoop\apps\python\current\py3.exe")
+    cmd.exe /c "pip.exe install --user neovim"
 }
-
-if (-Not (Test-Path "~\scoop\apps\python")) {
-    scoop install python
-    cmd.exe /c "~\scoop\apps\python\current\py3.exe"
-    cmd.exe /c "C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python37_64\Scripts\pip.exe install --user neovim"
-}
-
-if (-Not (Test-Path "~\scoop\apps\python")) {
-    scoop install python
-    cmd.exe /c "~\scoop\apps\python\current\py3.exe"
-}
+Scoop-Install "cmder"
+Scoop-Install "ruby"
+Scoop-Install "nodejs"
 
 $plugPath = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath("~\AppData\Local\nvim\autoload\")
 if (-Not (Test-Path $plugPath)) {
@@ -69,6 +81,11 @@ Get-ChildItem $settingPath  -File -Filter "*.vim" | Foreach-Object {
     if (Test-Path $_.Name)  { Remove-Item $_.Name }
     cmd.exe /c ("mklink " + $_.Name + " " + ($_.FullName))
 }
+
 $vimfilesFolder = "Vimfiles"
-cmd.exe /c ("mklink /d " + $vimfilesFolder  + " " +($settingPath + $vimfilesFolder) )
+if (-Not (Test-Path $vimFilesFolder))
+{ 
+    cmd.exe /c ("mklink /d " + $vimfilesFolder  + " " +($settingPath + $vimfilesFolder) )
+}
+
 Set-Location $cwd

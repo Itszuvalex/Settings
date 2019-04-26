@@ -15,7 +15,7 @@ if has('nvim')
 	so ~\AppData\local\nvim\nvim_keys.vim
 endif
 
-let g:python3_host_prog = "C:\\Python37\\python.exe"
+let g:python3_host_prog = expand("~\\scoop\\apps\\python\\current\\python.exe")
 
 set guifont=Source\ Code\ Pro
 color darcula
