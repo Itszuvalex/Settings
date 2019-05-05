@@ -47,11 +47,4 @@ if (-Not (Test-Path $vsvimfile)) {
     cmd.exe /c ("mklink " + $vsvimfile + " " + $vsvimrc)
 }
 
-
-$vimfilesFolder = "Vimfiles"
-if (-Not (Test-Path $vimFilesFolder))
-{ 
-    cmd.exe /c ("mklink /d " + $vimfilesFolder  + " " +($settingPath + $vimfilesFolder) )
-}
-
 Set-Location $PSScriptRoot
