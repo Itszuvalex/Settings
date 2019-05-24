@@ -1,6 +1,6 @@
 // Place your settings in this file to overwrite the default settings
 {
-    "editor.fontFamily": "Source Code Pro",
+    "editor.fontFamily": "SauceCodePro Nerd Font Mono",
     "editor.fontSize": 18,
     "files.associations": {
         "*.script": "sql"
@@ -36,5 +36,7 @@
         "<C-c>": false,
         "<C-v>": false
     },
-    "breadcrumbs.enabled": true
+    "breadcrumbs.enabled": true,
+    "terminal.integrated.fontFamily": "monospace",
+    "editor.fontLigatures": true
 }

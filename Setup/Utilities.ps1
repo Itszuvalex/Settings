@@ -3,6 +3,7 @@ function Scoop-Install
 {
     param (
         [String] $app,
+        [Switch] $sudo,
         [ScriptBlock] $setupCode = {}
     )
 
@@ -13,7 +14,13 @@ function Scoop-Install
     if (-Not (Test-Path -LiteralPath $appPath))
     {
         Write-Host "Installing" -foreground yellow
-        scoop install $app
+        if($sudo)
+        {
+            sudo scoop install $app
+        }
+        else {
+            scoop install $app
+        }
         &$setupCode
     }
     else {
@@ -22,3 +29,30 @@ function Scoop-Install
     $null
 }
 
+function Scoop-AddBucket
+{
+    param(
+        [String]$bucket
+    )
+     $buckets = (scoop bucket list)
+     if (-Not ($buckets -match $bucket)) {
+        scoop bucket add $bucket
+     }
+     $null
+}
+
+function Query-Install
+{
+    param (
+        [ScriptBlock] $prompt,
+        [ScriptBlock] $setupCode = {}
+    )
+
+    &$prompt
+    $key =  [System.Console]::ReadKey()
+    if ($key.Key -eq [System.ConsoleKey]::Y)
+    {
+        &$setupCode
+    }
+    $null
+}
