@@ -3,7 +3,8 @@
     "editor.fontFamily": "SauceCodePro Nerd Font Mono",
     "editor.fontSize": 18,
     "files.associations": {
-        "*.script": "sql"
+        "*.script": "sql",
+        "*.lock": "toml"
     },
     "workbench.iconTheme": "vscode-icons",
     "vim.statusBarColorControl": true,
@@ -31,12 +32,14 @@
     "files.insertFinalNewline": true,
     "editor.smoothScrolling": true,
     "scm.alwaysShowProviders": true,
-    "vim.easymotionMarkerFontFamily": "Source Code Pro",
+    "vim.easymotionMarkerFontFamily": "SauceCodePro Nerd Font Mono",
         "vim.handleKeys":{
         "<C-c>": false,
         "<C-v>": false
     },
     "breadcrumbs.enabled": true,
     "terminal.integrated.fontFamily": "monospace",
-    "editor.fontLigatures": true
+    "editor.fontLigatures": true,
+    "git.autofetch": true,
+    "go.inferGopath": true
 }

@@ -17,7 +17,6 @@ endif
 
 let g:python3_host_prog = expand("~\\scoop\\apps\\python\\current\\python.exe")
 
-set guifont=Source\ Code\ Pro
 color darcula
 "let g:airline_theme='dracula'
 set number

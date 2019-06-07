@@ -17,5 +17,6 @@ Plug 'tpope/vim-fugitive'
 " Langs
 Plug 'davidhalter/jedi'
 Plug 'deoplete-plugins/deoplete-jedi'
+Plug 'fatih/vim-go'
 
 call plug#end()
