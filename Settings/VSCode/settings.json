@@ -41,5 +41,6 @@
     "terminal.integrated.fontFamily": "monospace",
     "editor.fontLigatures": true,
     "git.autofetch": true,
-    "go.inferGopath": true
+    "files.eol": "\n",
+    "go.useLanguageServer": true
 }

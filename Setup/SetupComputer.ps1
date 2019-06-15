@@ -19,6 +19,8 @@ Scoop-Install "python" {
 Scoop-Install "cmder"
 Scoop-Install "ruby"
 Scoop-Install "nodejs"
+Scoop-Install "sudo"
+Scoop-Install "make"
 
 $plugPath = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath("$ENV:userprofile\AppData\Local\nvim\autoload\")
 if (-Not (Test-Path "$plugPath")) {
@@ -79,24 +81,13 @@ Query-Install {
     Write-Host ""
  } {
     Scoop-AddBucket "nerd-fonts"
-    Scoop-Install "SourceCodePro-NF" -Sudo
-    $fontPath = Convert-Path "$ENV:userprofile\scoop\apps\SourceCodePro-NF\"
-    Write-Host "Font Versions: " -nonewline
-    $versions = Get-ChildItem $fontPath -Directory
-    $versions | ForEach-Object {
-        Write-Host ($_.BaseName + " ") -foreground Yellow -nonewline
-    }
-    $version = Read-Host -Prompt "Which version to install:"
+    Scoop-Install "SourceCodePro-NF" -sudo
+    $fontPath = Convert-Path "$ENV:userprofile\scoop\apps\SourceCodePro-NF\current"
     $sa =  new-object -comobject shell.application
     $Fonts =  $sa.NameSpace(0x14)
 
-    $versions | where {$_.BaseName -eq $version } | ForEach-Object {
-        Write-Host "Installing Version: " -nonewline
-        Write-Host "$version" -foreground Cyan -nonewline
-        $ttfs = Get-ChildItem $_.FullName -File
-        foreach($ttf in $ttfs) {
-            $Fonts.CopyHere($ttf.FullName)
-        }
+    Get-ChildItem -Path $fontPath -File -Include *.ttf | ForEach-Object {
+        $Fonts.CopyHere($_.FullName)
     }
 }
 
